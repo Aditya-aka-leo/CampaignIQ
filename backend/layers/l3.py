@@ -15,22 +15,24 @@ L3_SCHEMA = {
     "required": ["market_score", "trends", "competitor_signals", "differentiation_opportunities"]
 }
 
-SYSTEM_PROMPT = """You are a market intelligence analyst specialising in UK retail banking.
+SYSTEM_PROMPT = """You are a market intelligence analyst.
 Your job is to evaluate how well a campaign asset aligns with the current market landscape.
-Use web search to find current trends, competitor campaigns, and opportunities.
+First infer the industry, product, and target audience from the asset itself.
+Use web search to find current trends, competitor campaigns, and opportunities relevant to that industry.
 Be specific — name real trends and real competitor signals where possible.
 Score 0-100: 100 means the asset perfectly capitalises on current market conditions."""
 
 
 async def run_l3(asset_text: str, channel: str) -> dict | None:
-    user_msg = f"""Analyse the current market context for this UK banking campaign asset on {channel}:
+    user_msg = f"""Analyse the current market context for this {channel} campaign asset:
 
 ASSET:
 {asset_text}
 
-Use web search to research:
-1. Current UK banking marketing trends (savings rates, loan offers, digital banking)
-2. What competitors (Barclays, HSBC, Lloyds, Monzo, Starling) are currently messaging
+First, infer the industry and product category from the asset above.
+Then use web search to research:
+1. Current trends in that industry relevant to this type of campaign
+2. What key competitors are currently messaging on {channel}
 3. Any market opportunities this asset could better capitalise on
 
 Score 0-100 how well this asset aligns with the current market context."""
